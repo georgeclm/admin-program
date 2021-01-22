@@ -1,9 +1,14 @@
 <template>
   <layout>
     <div class="container">
-      <div class="row">
-        <div class="col-md-12">
-          <h1>Leads</h1>
+      <div class="d-flex row">
+        <div class="col-md-10">
+          <div class="h1">Leads</div>
+        </div>
+        <div class="col-md-2">
+          <inertia-link class="btn btn-primary" :href="route('lead.add')">
+            Add Lead
+          </inertia-link>
         </div>
       </div>
       <div class="row">

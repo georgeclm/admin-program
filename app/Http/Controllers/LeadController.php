@@ -62,6 +62,9 @@ class LeadController extends Controller
     }
     public function view(Lead $lead)
     {
+        // use this to load the relationship into the table as seen here the reminders relationship inside the View so can display
+        $lead->load(['reminders']);
+
         return Inertia::render('Leads/LeadView',[
             'lead-prop' => $lead
         ]); 
@@ -76,7 +79,9 @@ class LeadController extends Controller
         $postData['age']= Carbon::parse($postData['dob'])->age;
         $lead = Lead::where('id', $postData['id'])
         ->update($postData);
-        return redirect()->route('lead.view', $postData['id']);
+        return redirect()
+        ->route('lead.view', $postData['id'])
+        ->with('success','Your changes are saved now');
 
     }
 }
