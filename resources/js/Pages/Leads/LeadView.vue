@@ -101,7 +101,7 @@
             <div class="card-body">
               <ul class="list-group list-group-flush">
                 <li
-                  class="list-item-group-item list-group-item-action"
+                  class="list-group-item list-group-item-action"
                   v-for="reminder in lead.reminders"
                   :key="reminder.id"
                 >
@@ -112,7 +112,15 @@
                       <strong>{{ reminder.status }}</strong>
                     </div>
                     <div class="col-md-2">
-                      <inertia-link href="#" class="float-right">
+                      <inertia-link
+                        :href="
+                          route('reminder.view', {
+                            lead: lead,
+                            reminder: reminder,
+                          })
+                        "
+                        class="float-right"
+                      >
                         Go
                       </inertia-link>
                     </div>

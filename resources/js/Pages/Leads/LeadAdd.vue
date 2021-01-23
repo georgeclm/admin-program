@@ -94,7 +94,6 @@ export default {
       },
     };
   },
-  // use this method to post the data that has been saved inside the form to the link or url
   methods: {
     async handleSubmit() {
       let response = await this.$inertia.post("/leads/save", this.lead);

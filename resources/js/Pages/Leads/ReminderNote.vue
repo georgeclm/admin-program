@@ -10,20 +10,27 @@
               >Lead Details</inertia-link
             >
             <span class="breadcrumb-sep">/</span>
-            Add Reminder
+            Add Reminder note
           </h1>
         </div>
       </div>
       <div class="row">
         <div class="col-md-6">
           <div class="card">
-            <div class="card-header">Add reminder</div>
+            <div class="card-header">Add note</div>
             <div class="card-body">
-              <reminder-form
-                :lead="lead"
-                :mainReminder="reminder"
-                @reminderSubmit="handleSubmit"
-              ></reminder-form>
+              <form @submit.prevent="handleAddNote">
+                <label for="note">Note</label>
+                <textarea
+                  name="note"
+                  id="note"
+                  class="form-control"
+                  v-model="note"
+                  required
+                ></textarea>
+                <br />
+                <button class="btn btn-success">Close</button>
+              </form>
             </div>
           </div>
         </div>
@@ -38,6 +45,7 @@ import ReminderForm from "../../Shared/ReminderForm.vue";
 export default {
   props: {
     lead: Object,
+    reminder: Object,
   },
   components: {
     Layout,
@@ -45,20 +53,19 @@ export default {
   },
   data() {
     return {
-      reminder: {
-        reminder: "",
-        reminder_date: "",
-      },
+      note: "",
     };
   },
   // use this method to post the data that has been saved inside the form to the link or url
 
   methods: {
     // to hanndle the form action take the data and send the post inside the reminder save name on the web.php
-
-    handleSubmit(postData) {
-      postData.lead_id = this.lead.id;
-      this.$inertia.post(route("reminder.save"), postData);
+    handleAddNote() {
+      const postData = {
+        reminder_id: this.reminder.id,
+        note: this.note,
+      };
+      this.$inertia.post(route("reminder.close"), postData);
     },
   },
 };

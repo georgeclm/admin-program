@@ -10944,4 +10944,9 @@ a.text-dark:focus {
   }
 }
 
+.error {
+  color: red;
+  font-size: 0.8em;
+}
+
 
