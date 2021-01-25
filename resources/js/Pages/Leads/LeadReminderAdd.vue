@@ -7,7 +7,7 @@
             <inertia-link :href="route('lead.list')"> Leads </inertia-link>
             <span class="breadcrumb-sep">/</span>
             <inertia-link :href="route('lead.view', { lead: lead })"
-              >Lead Details</inertia-link
+              >Reminders</inertia-link
             >
             <span class="breadcrumb-sep">/</span>
             Add Reminder
@@ -15,14 +15,14 @@
         </div>
       </div>
       <div class="row">
-        <div class="col-md-6">
+        <div class="col-sm-6">
           <div class="card">
             <div class="card-header">Add reminder</div>
             <div class="card-body">
               <reminder-form
                 :lead="lead"
-                :mainReminder="reminder"
-                @reminderSubmit="handleSubmit"
+                :prop-reminder="reminder"
+                @reminderSubmit="handleReminderSave"
               ></reminder-form>
             </div>
           </div>
@@ -43,11 +43,15 @@ export default {
     Layout,
     ReminderForm,
   },
+  created() {
+    this.reminder.reminder_date = this.getToday();
+  },
   data() {
     return {
       reminder: {
         reminder: "",
         reminder_date: "",
+        note: "",
       },
     };
   },
@@ -56,9 +60,19 @@ export default {
   methods: {
     // to hanndle the form action take the data and send the post inside the reminder save name on the web.php
 
-    handleSubmit(postData) {
-      postData.lead_id = this.lead.id;
-      this.$inertia.post(route("reminder.save"), postData);
+    handleReminderSave(reminder) {
+      this.$inertia.post(route("reminder.save"), reminder);
+    },
+    getToday() {
+      var date = new Date();
+      var day = date.getDate();
+      var month = date.getMonth() + 1;
+      var year = date.getFullYear();
+
+      if (month < 10) month = "0" + month;
+      if (day < 10) day = "0" + day;
+      var today = year + "-" + month + "-" + day;
+      return today;
     },
   },
 };

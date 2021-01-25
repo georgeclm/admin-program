@@ -18,7 +18,7 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         // \App\Models\User::factory(10)->create();
-        $this->call(UserTableSeeder::class);
+        /*$this->call(UserTableSeeder::class);
         Reminder::create([
             'lead_id'=>1,
             'user_id'=>1,
@@ -41,7 +41,7 @@ class DatabaseSeeder extends Seeder
             'reminder_date'=> Carbon::now()->addDays(1),
             'status'=>'pending',
             
-        ]);
+        ]);*/
     }
 
 }

@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <form @submit.prevent="handleSubmit">
     <div class="form-group">
       <label for="reminder">Reminder</label>
       <textarea
@@ -21,27 +21,19 @@
         required
       />
     </div>
-    <div v-if="reminder.id">
-      <button class="btn btn-success" @click="handleAddNewReminder">
-        Follow Up
-      </button>
-      <inertia-link
-        :href="route('reminder.note', { lead: lead, reminder: mainReminder })"
-        class="btn btn-outline-danger"
-      >
-        Close Reminder
-      </inertia-link>
-    </div>
-
-    <div v-else>
-      <button class="btn btn-success" @click="handleSubmit">Save</button>
-    </div>
-  </div>
+    <button class="btn btn-success">Follow Up</button>
+    <inertia-link
+      :href="route('lead.view', { lead: lead })"
+      class="btn btn-warning"
+    >
+      Back
+    </inertia-link>
+  </form>
 </template>
 <script>
 export default {
   props: {
-    mainReminder: Object,
+    propReminder: Object,
     lead: Object,
   },
   data() {
@@ -53,19 +45,15 @@ export default {
     };
   },
   created() {
-    this.reminder = this.mainReminder;
+    this.reminder = this.propReminder;
   },
 
   methods: {
     handleSubmit() {
+      let postData = this.reminder;
+      postData.lead_id = this.lead.id;
       // this emmit mean this function will happen only when the form for reminderSubmit is to store the reminder and the date inside the value
-      this.$emit("reminderSubmit", this.reminder);
-    },
-    handleAddNewReminder() {
-      this.$emit("addNewReminder", this.reminder);
-    },
-    handleCloseReminder() {
-      this.$emit("closeReminder", this.reminder);
+      this.$emit("reminderSubmit", postData);
     },
   },
 };

@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 use App\Models\User;
 
 
@@ -15,6 +16,13 @@ class UserTableSeeder extends Seeder
      */
     public function run()
     {
+
+        DB::table('users')->insert([
+            'name'=> 'Arnetta Felicia',
+            'email'=>'georgeclm7@gmail.com',
+            'password'=> bcrypt('123456789'),
+        ]);
+
         User::create([
             'name' =>'George Clement',
             'email' =>'cavidjaja@gmail.com',
@@ -23,8 +31,8 @@ class UserTableSeeder extends Seeder
 
         ]);
         User::create([
-            'name' =>'Test name',
-            'email' =>'test@test.com',
+            'name' =>'Epafroditus George',
+            'email' =>'georgeclm6@gmail.com',
             // simpler way than hashing using bcrypt
             'password' =>bcrypt('123456789'),
 

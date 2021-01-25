@@ -10,7 +10,7 @@
               >Lead Details</inertia-link
             >
             <span class="breadcrumb-sep">/</span>
-            Add Reminder note
+            Reminder Add Note
           </h1>
         </div>
       </div>
@@ -20,14 +20,16 @@
             <div class="card-header">Add note</div>
             <div class="card-body">
               <form @submit.prevent="handleAddNote">
-                <label for="note">Note</label>
-                <textarea
-                  name="note"
-                  id="note"
-                  class="form-control"
-                  v-model="note"
-                  required
-                ></textarea>
+                <div class="form-group">
+                  <label for="note">Note</label>
+                  <textarea
+                    name="note"
+                    id="note"
+                    class="form-control"
+                    v-model="note"
+                    required
+                  ></textarea>
+                </div>
                 <br />
                 <button class="btn btn-success">Close</button>
               </form>
@@ -40,7 +42,6 @@
 </template>
 <script>
 import Layout from "../../Shared/Layout.vue";
-import ReminderForm from "../../Shared/ReminderForm.vue";
 
 export default {
   props: {
@@ -49,7 +50,6 @@ export default {
   },
   components: {
     Layout,
-    ReminderForm,
   },
   data() {
     return {

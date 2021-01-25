@@ -11,22 +11,58 @@
               Lead details
             </inertia-link>
             <span class="breadcrumb-sep">/</span>
-            Update Reminder
+            Edit Reminder
           </h1>
         </div>
       </div>
       <div class="row">
         <div class="col-md-6">
           <div class="card">
-            <div class="card-header">Add reminder</div>
+            <div class="card-header">Edit reminder</div>
             <div class="card-body">
-              <!--For the reminder view it use a different first it still use reminderSubmit to store and take the data and then call the handleFormSubmit to save the changes to the database-->
-              <reminder-form
-                :mainReminder="reminder"
-                :lead="lead"
-                @reminderSubmit="handleFormSubmit"
-                @addNewReminder="handleAddNewReminder"
-              ></reminder-form>
+              <div class="form-group">
+                <label for="reminder">Reminder</label>
+                <textarea
+                  name="reminder"
+                  id="reminder"
+                  class="form-control"
+                  v-model="localReminder.reminder"
+                ></textarea>
+              </div>
+              <div class="form-group">
+                <label for="date">Reminder date</label>
+                <input
+                  type="date"
+                  name="date"
+                  id="date"
+                  class="form-control"
+                  v-model="localReminder.reminder_date"
+                />
+              </div>
+              <div
+                class="form-group"
+                v-if="reminder.status == 'Completed' && reminder.note != null"
+              >
+                <label for="note">Note</label>
+                <textarea
+                  name="note"
+                  id="note"
+                  class="form-control"
+                  v-model="localReminder.note"
+                ></textarea>
+              </div>
+              <div v-if="reminder.status != 'Completed'">
+                <button class="btn btn-success" @click="handleReminderEdit">
+                  Add new Reminder
+                </button>
+                <button
+                  class="btn btn-outline-danger"
+                  @click="handleReminderClose"
+                >
+                  Close Reminder
+                </button>
+              </div>
+              <div v-else>This Reminder is Closed.</div>
             </div>
           </div>
         </div>
@@ -36,7 +72,6 @@
 </template>
 <script>
 import Layout from "../../Shared/Layout.vue";
-import ReminderForm from "../../Shared/ReminderForm.vue";
 
 export default {
   props: {
@@ -45,18 +80,45 @@ export default {
   },
   components: {
     Layout,
-    ReminderForm,
+  },
+  created() {
+    this.localReminder = this.reminder;
+  },
+  data() {
+    return {
+      localReminder: {
+        userId: "",
+        leadId: "",
+        reminder: "",
+        reminder_date: "",
+        note: "",
+        status: "",
+      },
+    };
   },
   methods: {
     // it will execute 2 function the first one from the form component handleSubmit and then the form inside here
-    handleFormSubmit(postData) {
-      console.log(postData);
-    },
-    handleAddNewReminder(data) {
+    handleReminderEdit() {
+      if (!this.handleReminderAndNoteValidation()) {
+        return;
+      }
       const postData = {
-        reminder_id: data.id,
+        note: this.localReminder.note,
+        reminder_id: this.localReminder.id,
       };
       this.$inertia.post(route("reminder.update"), postData);
+    },
+    handleReminderClose() {
+      if (!this.handleReminderAndNoteValidation()) {
+        return;
+      }
+    },
+    handleReminderAndNoteValidation() {
+      if (this.localReminder.reminder == "") {
+        alert("The reminder cannot be empty");
+        return false;
+      }
+      return true;
     },
   },
 };

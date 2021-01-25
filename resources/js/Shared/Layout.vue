@@ -36,8 +36,13 @@
                 class="dropdown-menu dropdown-menu-right"
                 aria-labelledby="navbarDropdownLeft"
               >
-                <inertia-link href="/leads/list" class="dropdown-item"
+                <inertia-link :href="route('lead.list')" class="dropdown-item"
                   >Leads</inertia-link
+                >
+                <inertia-link
+                  :href="route('package.list')"
+                  class="dropdown-item"
+                  >Packages</inertia-link
                 >
               </div>
             </li>
@@ -54,9 +59,8 @@
                 data-toggle="dropdown"
                 aria-haspopup="true"
                 aria-expanded="false"
-                v-pre
               >
-                George Clement
+                {{ $page.props.auth.user.name }}
               </a>
 
               <div
@@ -72,7 +76,6 @@
         </div>
       </div>
     </nav>
-
     <main class="py-4">
       <slot />
     </main>

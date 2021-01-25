@@ -5,8 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Lead;
 use App\Models\Reminder;
-
 use Inertia\Inertia;
+
 class ReminderController extends Controller
 {
     public function add(Lead $lead)
@@ -15,17 +15,17 @@ class ReminderController extends Controller
             'lead'=>$lead,
         ]);
     }
-    public function store(Request $requset)
+    public function store(Request $request)
     {
         // validate the post data
-        $postData = $this->validate($requset,[
+        $postData = $this->validate($request,[
         'reminder' => 'required|min:3',
         'reminder_date' => 'required|date',
         // to mention this lead id and must exists inside leads table and the id 
         'lead_id' => 'required|exists:leads,id',
         ]);   
         // set the default user id and the status will always be pending
-        $postData['user_id']= $requset->user()->id;
+        $postData['user_id']= $request->user()->id;
         $postData['status'] = 'pending';
 
         $lead = Lead::find($postData['lead_id']);
@@ -51,11 +51,11 @@ class ReminderController extends Controller
         $postData = $this->validate($request,[
             'reminder_id'=>'required|exists:reminders,id',
         ]);
-        $reminder = Reminder::find($postData['reminder_id']);
+        $reminder = Reminder::findOrFail($postData['reminder_id']);
         $reminder->status = 'completed';
         $reminder->save();
         $lead = Lead::find($reminder->lead_id);
-        return redirect()->route('reminder.add',['lead'=>$lead]);
+        return redirect(route('reminder.add',['lead'=>$lead]));
     }
     public function addNote(Lead $lead, Reminder $reminder)
     {
