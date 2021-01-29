@@ -1,6 +1,6 @@
 <template>
   <div class="card">
-    <div class="card-header">Reminders List</div>
+    <div class="card-header h4">Reminders List</div>
     <div class="card-body">
       <ul class="list-group list-group-flush" v-if="reminders.length > 0">
         <li
@@ -15,6 +15,7 @@
                 reminder: reminder,
               })
             "
+            class="h5"
           >
             <strong>{{ reminder.lead.name }}</strong>
             <br />

@@ -1949,6 +1949,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: {
     reminders: Array
@@ -2048,12 +2049,16 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   components: {
     Layout: _Shared_Layout_vue__WEBPACK_IMPORTED_MODULE_0__.default
   },
-  props: ["leads"]
+  props: ["leads", "user"]
 });
 
 /***/ }),
@@ -2331,16 +2336,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -2474,7 +2469,10 @@ __webpack_require__.r(__webpack_exports__);
         reminder_id: this.reminder.id,
         note: this.note
       };
-      this.$inertia.post(route("reminder.close"), postData);
+      this.$inertia.post(route("reminder.close", {
+        lead: this.lead,
+        reminder: this.reminder
+      }), postData);
     }
   }
 });
@@ -2493,6 +2491,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => __WEBPACK_DEFAULT_EXPORT__
 /* harmony export */ });
 /* harmony import */ var _Shared_Layout_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../Shared/Layout.vue */ "./resources/js/Shared/Layout.vue");
+//
+//
+//
 //
 //
 //
@@ -2591,6 +2592,14 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     // it will execute 2 function the first one from the form component handleSubmit and then the form inside here
+    handleReminderAndNoteValidation: function handleReminderAndNoteValidation() {
+      if (this.localReminder.reminder == "") {
+        alert("The reminder cannot be empty");
+        return false;
+      }
+
+      return true;
+    },
     handleReminderEdit: function handleReminderEdit() {
       if (!this.handleReminderAndNoteValidation()) {
         return;
@@ -2606,14 +2615,15 @@ __webpack_require__.r(__webpack_exports__);
       if (!this.handleReminderAndNoteValidation()) {
         return;
       }
-    },
-    handleReminderAndNoteValidation: function handleReminderAndNoteValidation() {
-      if (this.localReminder.reminder == "") {
-        alert("The reminder cannot be empty");
-        return false;
-      }
 
-      return true;
+      var postData = {
+        note: this.localReminder.note,
+        reminder_id: this.localReminder.id
+      };
+      this.$inertia.get(route("reminder.note", {
+        lead: this.lead,
+        reminder: this.reminder
+      }), postData);
     }
   }
 });
@@ -2958,6 +2968,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   methods: {
@@ -3135,6 +3147,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => __WEBPACK_DEFAULT_EXPORT__
 /* harmony export */ });
+//
+//
 //
 //
 //
@@ -41409,14 +41423,16 @@ var render = function() {
     _c("div", { staticClass: "container" }, [
       _c("div", { staticClass: "row mb-3" }, [
         _c("div", { staticClass: "col-md-12" }, [
-          _c("p", [_vm._v("Welcome " + _vm._s(_vm.$page.props.auth.user.name))])
+          _c("div", { staticClass: "h2" }, [
+            _vm._v("Welcome " + _vm._s(_vm.$page.props.auth.user.name))
+          ])
         ])
       ]),
       _vm._v(" "),
       _c("div", { staticClass: "row" }, [
         _c(
           "div",
-          { staticClass: "col-sm-4" },
+          { staticClass: "col-sm-5" },
           [_c("reminder-list", { attrs: { reminders: _vm.reminders } })],
           1
         )
@@ -41448,7 +41464,7 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "card" }, [
-    _c("div", { staticClass: "card-header" }, [_vm._v("Reminders List")]),
+    _c("div", { staticClass: "card-header h4" }, [_vm._v("Reminders List")]),
     _vm._v(" "),
     _c("div", { staticClass: "card-body" }, [
       _vm.reminders.length > 0
@@ -41463,6 +41479,7 @@ var render = function() {
                   _c(
                     "inertia-link",
                     {
+                      staticClass: "h5",
                       attrs: {
                         href: _vm.route("reminder.view", {
                           lead: reminder.lead,
@@ -41516,25 +41533,25 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c("layout", [
     _c("div", { staticClass: "container" }, [
-      _c(
-        "div",
-        { staticClass: "d-flex row mb-3" },
-        [
-          _c("div", { staticClass: "col-md-12" }, [
-            _c("div", { staticClass: "float-left" }, [_vm._v("Leads")])
-          ]),
-          _vm._v(" "),
-          _c(
-            "inertia-link",
-            {
-              staticClass: "float-right btn btn-primary",
-              attrs: { href: _vm.route("lead.add") }
-            },
-            [_vm._v("\n        Add Lead\n      ")]
-          )
-        ],
-        1
-      ),
+      _c("div", { staticClass: "d-flex row mb-3" }, [
+        _c(
+          "div",
+          { staticClass: "col-md-12" },
+          [
+            _c("div", { staticClass: "float-left h2" }, [_vm._v("Member")]),
+            _vm._v(" "),
+            _c(
+              "inertia-link",
+              {
+                staticClass: "float-right btn btn-outline-secondary",
+                attrs: { href: _vm.route("lead.add") }
+              },
+              [_vm._v("\n          Add Member\n        ")]
+            )
+          ],
+          1
+        )
+      ]),
       _vm._v(" "),
       _c("div", { staticClass: "row mb-3" }, [
         _c("div", { staticClass: "col-md-12" }, [
@@ -41549,7 +41566,7 @@ var render = function() {
                 staticClass: "form-control mr-3 col-sm-4",
                 attrs: {
                   type: "text",
-                  placeholder: "Search a lead by name or phone",
+                  placeholder: "Search a member by name or phone",
                   name: "search"
                 }
               }),
@@ -41579,20 +41596,25 @@ var render = function() {
                 ]
               ),
               _vm._v(" "),
-              _c("button", { staticClass: "btn btn-primary mr-3" }, [
+              _c("button", { staticClass: "btn btn-outline-primary mr-3" }, [
                 _vm._v("Filter")
               ]),
               _vm._v(" "),
-              _c("a", { attrs: { href: _vm.route("lead.list") } }, [
-                _vm._v("Reset")
-              ])
+              _c(
+                "a",
+                {
+                  staticClass: "btn btn-outline-danger",
+                  attrs: { href: _vm.route("lead.list") }
+                },
+                [_vm._v("Reset")]
+              )
             ]
           )
         ])
       ]),
       _vm._v(" "),
       _c("div", { staticClass: "row" }, [
-        _c("div", { staticClass: "col-md-12" }, [
+        _c("div", { staticClass: "col-lg-12" }, [
           _c(
             "table",
             { staticClass: "table table-bordered bg-white" },
@@ -41619,51 +41641,75 @@ var render = function() {
               _vm._v(" "),
               _vm._l(_vm.leads.data, function(lead) {
                 return _c("tr", { key: lead.id }, [
-                  _c("td", [_vm._v(_vm._s(lead.id))]),
+                  lead.added_by == _vm.user
+                    ? _c("td", [_vm._v(_vm._s(lead.id))])
+                    : _vm._e(),
                   _vm._v(" "),
-                  _c(
-                    "td",
-                    [
-                      _c(
-                        "inertia-link",
-                        {
-                          attrs: {
-                            href: _vm.route("lead.view", { lead: lead })
-                          }
-                        },
-                        [_vm._v(_vm._s(lead.name))]
+                  lead.added_by == _vm.user
+                    ? _c(
+                        "td",
+                        [
+                          _c(
+                            "inertia-link",
+                            {
+                              attrs: {
+                                href: _vm.route("lead.view", { lead: lead })
+                              }
+                            },
+                            [_vm._v(_vm._s(lead.name))]
+                          )
+                        ],
+                        1
                       )
-                    ],
-                    1
-                  ),
+                    : _vm._e(),
                   _vm._v(" "),
-                  _c("td", [_vm._v(_vm._s(lead.email))]),
+                  lead.added_by == _vm.user
+                    ? _c("td", [_vm._v(_vm._s(lead.email))])
+                    : _vm._e(),
                   _vm._v(" "),
-                  _c("td", [_vm._v(_vm._s(lead.phone))]),
+                  lead.added_by == _vm.user
+                    ? _c("td", [_vm._v(_vm._s(lead.phone))])
+                    : _vm._e(),
                   _vm._v(" "),
-                  _c("td", [_vm._v(_vm._s(lead.age))]),
+                  lead.added_by == _vm.user
+                    ? _c("td", [_vm._v(_vm._s(lead.age))])
+                    : _vm._e(),
                   _vm._v(" "),
-                  _c("td", [_vm._v(_vm._s(lead.dob))]),
+                  lead.added_by == _vm.user
+                    ? _c("td", [_vm._v(_vm._s(lead.dob))])
+                    : _vm._e(),
                   _vm._v(" "),
-                  _c("td", [_vm._v(_vm._s(lead.interested_package))]),
+                  lead.added_by == _vm.user
+                    ? _c("td", [
+                        _vm._v(
+                          "\n              " +
+                            _vm._s(lead.interested_package) +
+                            "\n            "
+                        )
+                      ])
+                    : _vm._e(),
                   _vm._v(" "),
-                  _c("td", [_vm._v(_vm._s(lead.created_at))]),
+                  lead.added_by == _vm.user
+                    ? _c("td", [_vm._v(_vm._s(lead.created_at))])
+                    : _vm._e(),
                   _vm._v(" "),
-                  _c(
-                    "td",
-                    [
-                      _c(
-                        "inertia-link",
-                        {
-                          attrs: {
-                            href: _vm.route("lead.view", { lead: lead })
-                          }
-                        },
-                        [_vm._v("\n                Go\n              ")]
+                  lead.added_by == _vm.user
+                    ? _c(
+                        "td",
+                        [
+                          _c(
+                            "inertia-link",
+                            {
+                              attrs: {
+                                href: _vm.route("lead.view", { lead: lead })
+                              }
+                            },
+                            [_vm._v("\n                Go\n              ")]
+                          )
+                        ],
+                        1
                       )
-                    ],
-                    1
-                  )
+                    : _vm._e()
                 ])
               })
             ],
@@ -41705,11 +41751,11 @@ var render = function() {
             "h1",
             [
               _c("inertia-link", { attrs: { href: _vm.route("lead.list") } }, [
-                _vm._v("Leads")
+                _vm._v("Members")
               ]),
               _vm._v(" "),
               _c("span", { staticClass: "breadcrumb-sep" }, [_vm._v("/")]),
-              _vm._v("\n          New lead\n        ")
+              _vm._v("\n          New Member\n        ")
             ],
             1
           )
@@ -41763,7 +41809,7 @@ var render = function() {
             "h1",
             [
               _c("inertia-link", { attrs: { href: _vm.route("lead.list") } }, [
-                _vm._v(" Leads ")
+                _vm._v(" Members ")
               ]),
               _vm._v(" "),
               _c("span", { staticClass: "breadcrumb-sep" }, [_vm._v("/")]),
@@ -41835,11 +41881,11 @@ var render = function() {
             "h1",
             [
               _c("inertia-link", { attrs: { href: _vm.route("lead.list") } }, [
-                _vm._v(" Leads ")
+                _vm._v(" Members ")
               ]),
               _vm._v(" "),
               _c("span", { staticClass: "breadcrumb-sep" }, [_vm._v("/")]),
-              _vm._v("\n          Lead Details\n        ")
+              _vm._v("\n          Member Details\n        ")
             ],
             1
           )
@@ -41847,7 +41893,7 @@ var render = function() {
       ]),
       _vm._v(" "),
       _c("div", { staticClass: "card" }, [
-        _c("div", { staticClass: "card-header" }, [_vm._v("Lead details")]),
+        _c("div", { staticClass: "card-header" }, [_vm._v("Member details")]),
         _vm._v(" "),
         _c(
           "div",
@@ -41867,28 +41913,6 @@ var render = function() {
             _c("div", { staticClass: "card-header" }, [_vm._v("Reminders")]),
             _vm._v(" "),
             _c("div", { staticClass: "card-body" }, [
-              _c("div", { staticClass: "row" }, [
-                _c(
-                  "div",
-                  { staticClass: "col-sm-12" },
-                  [
-                    _c(
-                      "inertia-link",
-                      {
-                        staticClass: "btn btn-success float-right mb-2",
-                        attrs: {
-                          href: _vm.route("reminder.add", {
-                            lead: _vm.leadProp
-                          })
-                        }
-                      },
-                      [_vm._v("\n              Add a Reminder\n            ")]
-                    )
-                  ],
-                  1
-                )
-              ]),
-              _vm._v(" "),
               _c(
                 "ul",
                 { staticClass: "list-group list-group-flush" },
@@ -42004,7 +42028,7 @@ var render = function() {
             "h1",
             [
               _c("inertia-link", { attrs: { href: _vm.route("lead.list") } }, [
-                _vm._v(" Leads ")
+                _vm._v(" Members ")
               ]),
               _vm._v(" "),
               _c("span", { staticClass: "breadcrumb-sep" }, [_vm._v("/")]),
@@ -42012,7 +42036,7 @@ var render = function() {
               _c(
                 "inertia-link",
                 { attrs: { href: _vm.route("lead.view", { lead: _vm.lead }) } },
-                [_vm._v("Lead Details")]
+                [_vm._v("Member Details")]
               ),
               _vm._v(" "),
               _c("span", { staticClass: "breadcrumb-sep" }, [_vm._v("/")]),
@@ -42111,7 +42135,7 @@ var render = function() {
             "h1",
             [
               _c("inertia-link", { attrs: { href: _vm.route("lead.list") } }, [
-                _vm._v(" Leads ")
+                _vm._v(" Members ")
               ]),
               _vm._v(" "),
               _c("span", { staticClass: "breadcrumb-sep" }, [_vm._v("/")]),
@@ -42119,7 +42143,7 @@ var render = function() {
               _c(
                 "inertia-link",
                 { attrs: { href: _vm.route("lead.view", { lead: _vm.lead }) } },
-                [_vm._v("\n            Lead details\n          ")]
+                [_vm._v("\n            Member details\n          ")]
               ),
               _vm._v(" "),
               _c("span", { staticClass: "breadcrumb-sep" }, [_vm._v("/")]),
@@ -42239,14 +42263,10 @@ var render = function() {
                     _c(
                       "button",
                       {
-                        staticClass: "btn btn-success",
+                        staticClass: "btn btn-outline-dark",
                         on: { click: _vm.handleReminderEdit }
                       },
-                      [
-                        _vm._v(
-                          "\n                Add new Reminder\n              "
-                        )
-                      ]
+                      [_vm._v("\n                Follow Up\n              ")]
                     ),
                     _vm._v(" "),
                     _c(
@@ -42601,7 +42621,7 @@ var render = function() {
             _c(
               "inertia-link",
               { staticClass: "navbar-brand", attrs: { href: "/" } },
-              [_vm._v("FitAppGeorge")]
+              [_vm._v("Admin Program George")]
             ),
             _vm._v(" "),
             _vm._m(0),
@@ -42645,7 +42665,7 @@ var render = function() {
                             staticClass: "dropdown-item",
                             attrs: { href: _vm.route("lead.list") }
                           },
-                          [_vm._v("Leads")]
+                          [_vm._v("Members")]
                         ),
                         _vm._v(" "),
                         _c(
@@ -43002,12 +43022,14 @@ var render = function() {
           "div",
           { staticClass: "col-md-6" },
           [
-            _c("button", { staticClass: "btn btn-success" }, [_vm._v("Save")]),
+            _c("button", { staticClass: "btn btn-outline-success" }, [
+              _vm._v("Save")
+            ]),
             _vm._v(" "),
             _c(
               "inertia-link",
               {
-                staticClass: "btn btn-warning",
+                staticClass: "btn btn-outline-danger",
                 attrs: { href: _vm.route("lead.list") }
               },
               [_vm._v("\n        Back")]
@@ -43043,69 +43065,77 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c(
-    "form",
-    {
-      on: {
-        submit: function($event) {
-          $event.preventDefault()
-          return _vm.handleSubmit($event)
-        }
-      }
-    },
+    "div",
     [
-      _c("div", { staticClass: "form-group" }, [
-        _c("label", { attrs: { for: "reminder" } }, [_vm._v("Reminder")]),
-        _vm._v(" "),
-        _c("textarea", {
-          directives: [
-            {
-              name: "model",
-              rawName: "v-model",
-              value: _vm.reminder.reminder,
-              expression: "reminder.reminder"
-            }
-          ],
-          staticClass: "form-control",
-          attrs: { name: "reminder", id: "reminder", required: "" },
-          domProps: { value: _vm.reminder.reminder },
+      _c(
+        "form",
+        {
+          staticClass: "mb-3",
           on: {
-            input: function($event) {
-              if ($event.target.composing) {
-                return
-              }
-              _vm.$set(_vm.reminder, "reminder", $event.target.value)
+            submit: function($event) {
+              $event.preventDefault()
+              return _vm.handleSubmit($event)
             }
           }
-        })
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "form-group" }, [
-        _c("label", { attrs: { for: "date" } }, [_vm._v("Reminder date")]),
-        _vm._v(" "),
-        _c("input", {
-          directives: [
-            {
-              name: "model",
-              rawName: "v-model",
-              value: _vm.reminder.reminder_date,
-              expression: "reminder.reminder_date"
-            }
-          ],
-          staticClass: "form-control",
-          attrs: { type: "date", name: "date", id: "date", required: "" },
-          domProps: { value: _vm.reminder.reminder_date },
-          on: {
-            input: function($event) {
-              if ($event.target.composing) {
-                return
+        },
+        [
+          _c("div", { staticClass: "form-group" }, [
+            _c("label", { attrs: { for: "reminder" } }, [_vm._v("Reminder")]),
+            _vm._v(" "),
+            _c("textarea", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.reminder.reminder,
+                  expression: "reminder.reminder"
+                }
+              ],
+              staticClass: "form-control",
+              attrs: { name: "reminder", id: "reminder", required: "" },
+              domProps: { value: _vm.reminder.reminder },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.$set(_vm.reminder, "reminder", $event.target.value)
+                }
               }
-              _vm.$set(_vm.reminder, "reminder_date", $event.target.value)
-            }
-          }
-        })
-      ]),
-      _vm._v(" "),
-      _c("button", { staticClass: "btn btn-success" }, [_vm._v("Follow Up")]),
+            })
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "form-group" }, [
+            _c("label", { attrs: { for: "date" } }, [_vm._v("Reminder date")]),
+            _vm._v(" "),
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.reminder.reminder_date,
+                  expression: "reminder.reminder_date"
+                }
+              ],
+              staticClass: "form-control",
+              attrs: { type: "date", name: "date", id: "date", required: "" },
+              domProps: { value: _vm.reminder.reminder_date },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.$set(_vm.reminder, "reminder_date", $event.target.value)
+                }
+              }
+            })
+          ]),
+          _vm._v(" "),
+          _c("button", { staticClass: "btn btn-success" }, [
+            _vm._v("Add New Reminder")
+          ])
+        ]
+      ),
       _vm._v(" "),
       _c(
         "inertia-link",

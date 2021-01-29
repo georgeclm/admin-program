@@ -84,8 +84,8 @@
     </div>
     <div class="row">
       <div class="col-md-6">
-        <button class="btn btn-success">Save</button>
-        <inertia-link class="btn btn-warning" :href="route('lead.list')">
+        <button class="btn btn-outline-success">Save</button>
+        <inertia-link class="btn btn-outline-danger" :href="route('lead.list')">
           Back</inertia-link
         >
       </div>

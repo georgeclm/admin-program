@@ -48,8 +48,10 @@ class LeadController extends Controller
             })
             ->orderByDesc('id')
             ->paginate(10);
+        $user = Auth::user()->id;
         return Inertia::render('Leads/Index',[
-            'leads'=> $leads
+            'leads'=> $leads,
+            'user'=> $user
         ]);
         }
     public function create()

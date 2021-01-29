@@ -4,14 +4,14 @@
       <div class="row">
         <div class="col-md-12">
           <h1>
-            <inertia-link :href="route('lead.list')"> Leads </inertia-link>
+            <inertia-link :href="route('lead.list')"> Members </inertia-link>
             <span class="breadcrumb-sep">/</span>
-            Lead Details
+            Member Details
           </h1>
         </div>
       </div>
       <div class="card">
-        <div class="card-header">Lead details</div>
+        <div class="card-header">Member details</div>
         <div class="card-body">
           <lead-form
             @formSubmit="handleSubmit"
@@ -23,16 +23,6 @@
       <div class="card mt-3" v-if="lead.reminders.length > 0">
         <div class="card-header">Reminders</div>
         <div class="card-body">
-          <div class="row">
-            <div class="col-sm-12">
-              <inertia-link
-                class="btn btn-success float-right mb-2"
-                :href="route('reminder.add', { lead: leadProp })"
-              >
-                Add a Reminder
-              </inertia-link>
-            </div>
-          </div>
           <ul class="list-group list-group-flush">
             <li
               class="list-group-item list-group-item-action"

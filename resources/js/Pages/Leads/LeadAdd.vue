@@ -4,9 +4,9 @@
       <div class="row">
         <div class="col-md-12">
           <h1>
-            <inertia-link :href="route('lead.list')">Leads</inertia-link>
+            <inertia-link :href="route('lead.list')">Members</inertia-link>
             <span class="breadcrumb-sep">/</span>
-            New lead
+            New Member
           </h1>
         </div>
       </div>

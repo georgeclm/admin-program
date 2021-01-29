@@ -18,25 +18,11 @@ class UserTableSeeder extends Seeder
     {
 
         DB::table('users')->insert([
-            'name'=> 'Arnetta Felicia',
-            'email'=>'georgeclm7@gmail.com',
+            'name'=> 'Admin For test',
+            'email'=>'test@test.com',
             'password'=> bcrypt('123456789'),
         ]);
 
-        User::create([
-            'name' =>'George Clement',
-            'email' =>'cavidjaja@gmail.com',
-            // simpler way than hashing using bcrypt
-            'password' =>bcrypt('123456789'),
-
-        ]);
-        User::create([
-            'name' =>'Epafroditus George',
-            'email' =>'georgeclm6@gmail.com',
-            // simpler way than hashing using bcrypt
-            'password' =>bcrypt('123456789'),
-
-        ]);
 
     }
 }

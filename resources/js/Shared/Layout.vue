@@ -2,7 +2,9 @@
   <div>
     <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
       <div class="container">
-        <inertia-link class="navbar-brand" href="/">FitAppGeorge</inertia-link>
+        <inertia-link class="navbar-brand" href="/"
+          >Admin Program George</inertia-link
+        >
         <button
           class="navbar-toggler"
           type="button"
@@ -37,7 +39,7 @@
                 aria-labelledby="navbarDropdownLeft"
               >
                 <inertia-link :href="route('lead.list')" class="dropdown-item"
-                  >Leads</inertia-link
+                  >Members</inertia-link
                 >
                 <inertia-link
                   :href="route('package.list')"

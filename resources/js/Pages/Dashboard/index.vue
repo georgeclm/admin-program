@@ -3,11 +3,11 @@
     <div class="container">
       <div class="row mb-3">
         <div class="col-md-12">
-          <p>Welcome {{ $page.props.auth.user.name }}</p>
+          <div class="h2">Welcome {{ $page.props.auth.user.name }}</div>
         </div>
       </div>
       <div class="row">
-        <div class="col-sm-4">
+        <div class="col-sm-5">
           <reminder-list :reminders="reminders"></reminder-list>
         </div>
       </div>

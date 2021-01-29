@@ -4,10 +4,10 @@
       <div class="row">
         <div class="col-md-12">
           <h1>
-            <inertia-link :href="route('lead.list')"> Leads </inertia-link>
+            <inertia-link :href="route('lead.list')"> Members </inertia-link>
             <span class="breadcrumb-sep">/</span>
             <inertia-link :href="route('lead.view', { lead: lead })"
-              >Lead Details</inertia-link
+              >Member Details</inertia-link
             >
             <span class="breadcrumb-sep">/</span>
             Reminder Add Note
@@ -65,7 +65,10 @@ export default {
         reminder_id: this.reminder.id,
         note: this.note,
       };
-      this.$inertia.post(route("reminder.close"), postData);
+      this.$inertia.post(
+        route("reminder.close", { lead: this.lead, reminder: this.reminder }),
+        postData
+      );
     },
   },
 };

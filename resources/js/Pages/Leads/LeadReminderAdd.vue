@@ -4,7 +4,7 @@
       <div class="row">
         <div class="col-md-12">
           <h1>
-            <inertia-link :href="route('lead.list')"> Leads </inertia-link>
+            <inertia-link :href="route('lead.list')"> Members </inertia-link>
             <span class="breadcrumb-sep">/</span>
             <inertia-link :href="route('lead.view', { lead: lead })"
               >Reminders</inertia-link

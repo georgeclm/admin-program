@@ -27,7 +27,7 @@ class ReminderController extends Controller
         // set the default user id and the status will always be pending
         $postData['user_id']= $request->user()->id;
         $postData['status'] = 'pending';
-
+        // need the lead id because we want to redirect to the lead page before
         $lead = Lead::find($postData['lead_id']);
         // use this reminders that already mention inside the Lead relationship and create the reminders 
         $lead->reminders()->create($postData);

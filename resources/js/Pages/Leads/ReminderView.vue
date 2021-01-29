@@ -4,11 +4,11 @@
       <div class="row">
         <div class="col-md-12">
           <h1>
-            <inertia-link :href="route('lead.list')"> Leads </inertia-link>
+            <inertia-link :href="route('lead.list')"> Members </inertia-link>
             <span class="breadcrumb-sep">/</span>
             <!--Give the property id value because we have inside prop to go back to the lead-->
             <inertia-link :href="route('lead.view', { lead: lead })">
-              Lead details
+              Member details
             </inertia-link>
             <span class="breadcrumb-sep">/</span>
             Edit Reminder
@@ -52,8 +52,11 @@
                 ></textarea>
               </div>
               <div v-if="reminder.status != 'Completed'">
-                <button class="btn btn-success" @click="handleReminderEdit">
-                  Add new Reminder
+                <button
+                  class="btn btn-outline-dark"
+                  @click="handleReminderEdit"
+                >
+                  Follow Up
                 </button>
                 <button
                   class="btn btn-outline-danger"
@@ -98,6 +101,14 @@ export default {
   },
   methods: {
     // it will execute 2 function the first one from the form component handleSubmit and then the form inside here
+    handleReminderAndNoteValidation() {
+      if (this.localReminder.reminder == "") {
+        alert("The reminder cannot be empty");
+        return false;
+      }
+      return true;
+    },
+
     handleReminderEdit() {
       if (!this.handleReminderAndNoteValidation()) {
         return;
@@ -112,13 +123,14 @@ export default {
       if (!this.handleReminderAndNoteValidation()) {
         return;
       }
-    },
-    handleReminderAndNoteValidation() {
-      if (this.localReminder.reminder == "") {
-        alert("The reminder cannot be empty");
-        return false;
-      }
-      return true;
+      const postData = {
+        note: this.localReminder.note,
+        reminder_id: this.localReminder.id,
+      };
+      this.$inertia.get(
+        route("reminder.note", { lead: this.lead, reminder: this.reminder }),
+        postData
+      );
     },
   },
 };

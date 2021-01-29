@@ -3,14 +3,14 @@
     <div class="container">
       <div class="d-flex row mb-3">
         <div class="col-md-12">
-          <div class="float-left">Leads</div>
+          <div class="float-left h2">Member</div>
+          <inertia-link
+            class="float-right btn btn-outline-secondary"
+            :href="route('lead.add')"
+          >
+            Add Member
+          </inertia-link>
         </div>
-        <inertia-link
-          class="float-right btn btn-primary"
-          :href="route('lead.add')"
-        >
-          Add Lead
-        </inertia-link>
       </div>
       <div class="row mb-3">
         <div class="col-md-12">
@@ -18,7 +18,7 @@
             <input
               type="text"
               class="form-control mr-3 col-sm-4"
-              placeholder="Search a lead by name or phone"
+              placeholder="Search a member by name or phone"
               name="search"
             />
             <select
@@ -31,13 +31,15 @@
               <option value="2">Half yearly package</option>
               <option value="1">Monthly package</option>
             </select>
-            <button class="btn btn-primary mr-3">Filter</button>
-            <a :href="route('lead.list')">Reset</a>
+            <button class="btn btn-outline-primary mr-3">Filter</button>
+            <a :href="route('lead.list')" class="btn btn-outline-danger"
+              >Reset</a
+            >
           </form>
         </div>
       </div>
       <div class="row">
-        <div class="col-md-12">
+        <div class="col-lg-12">
           <table class="table table-bordered bg-white">
             <tr>
               <th>ID</th>
@@ -52,19 +54,21 @@
             </tr>
             <tr v-for="lead in leads.data" :key="lead.id">
               <!-- for loop inside inertia js using v-for inside the class-->
-              <td>{{ lead.id }}</td>
-              <td>
+              <td v-if="lead.added_by == user">{{ lead.id }}</td>
+              <td v-if="lead.added_by == user">
                 <inertia-link :href="route('lead.view', { lead: lead })">{{
                   lead.name
                 }}</inertia-link>
               </td>
-              <td>{{ lead.email }}</td>
-              <td>{{ lead.phone }}</td>
-              <td>{{ lead.age }}</td>
-              <td>{{ lead.dob }}</td>
-              <td>{{ lead.interested_package }}</td>
-              <td>{{ lead.created_at }}</td>
-              <td>
+              <td v-if="lead.added_by == user">{{ lead.email }}</td>
+              <td v-if="lead.added_by == user">{{ lead.phone }}</td>
+              <td v-if="lead.added_by == user">{{ lead.age }}</td>
+              <td v-if="lead.added_by == user">{{ lead.dob }}</td>
+              <td v-if="lead.added_by == user">
+                {{ lead.interested_package }}
+              </td>
+              <td v-if="lead.added_by == user">{{ lead.created_at }}</td>
+              <td v-if="lead.added_by == user">
                 <!-- This is for routing using ziggs by taking the id inside this table and this use the name inside the web.php the name for the view is lead.view inside web -->
                 <inertia-link :href="route('lead.view', { lead: lead })">
                   Go
@@ -83,6 +87,6 @@ export default {
   components: {
     Layout,
   },
-  props: ["leads"],
+  props: ["leads", "user"],
 };
 </script>
