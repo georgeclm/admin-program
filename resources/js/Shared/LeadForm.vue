@@ -89,6 +89,14 @@
           Back</inertia-link
         >
       </div>
+      <div class="col-md-6" v-if="lead.id">
+        <inertia-link
+          class="btn btn-outline-primary float-right"
+          :href="route('lead.subscribe', { lead: mainLead })"
+        >
+          Make Subscriber</inertia-link
+        >
+      </div>
     </div>
   </form>
 </template>

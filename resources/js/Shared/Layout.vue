@@ -42,6 +42,11 @@
                   >Members</inertia-link
                 >
                 <inertia-link
+                  :href="route('subscriber.list')"
+                  class="dropdown-item"
+                  >Subscribers</inertia-link
+                >
+                <inertia-link
                   :href="route('package.list')"
                   class="dropdown-item"
                   >Packages</inertia-link

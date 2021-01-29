@@ -7,6 +7,8 @@ use App\Models\User;
 use App\Models\Reminder;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
+use Database\Seeders\UserTableSeeder;
+
 
 
 
@@ -24,9 +26,10 @@ class DatabaseSeeder extends Seeder
             'email'=>'test@test.com',
             'password'=> bcrypt('123456789'),
         ]);
+
         // \App\Models\User::factory(10)->create();
-        /*$this->call(UserTableSeeder::class);
-        Reminder::create([
+        $this->call(UserTableSeeder::class);
+        /*Reminder::create([
             'lead_id'=>1,
             'user_id'=>1,
             'reminder'=>'A reminder to call costumer',

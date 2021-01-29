@@ -5,6 +5,8 @@ use Inertia\Inertia;
 use Illuminate\Http\Request;
 use App\Models\Lead;
 use App\Models\Package;
+use App\Models\Subscriber;
+
 
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
@@ -28,24 +30,33 @@ class LeadController extends Controller
 
     public function index(Request $request)
     {
+        // null varibale for frist and search value 
         $package = null;
         $search = false;
+        // for the search function in the package first to store the package value if not then null
         if($request->has('package_search') && $request->input('package_search') != 0){
             $package = Package::findOrFail($request->input('package_search'));
         }
+        // for the search query from the index to check if true then search
         if($request->has('search') && $request->input('search') !== ''){
             $search = true;
         }
         $leads = Lead::query()
             ->where('branch_id',1)
             ->where('active', 1)
+            // the query search
             ->when($search, function($query) use ($request){
                 $query->where('name', 'like',"%{$request->input('search')}%")
-                    ->orWhere('email','like',"%{$request->input('search')}%");
+                    ->orWhere('email','like',"%{$request->input('search')}%")
+                    ->orWhere('phone','like',"%{$request->input('search')}%")
+                    ->orWhere('age','like',"%{$request->input('search')}%")
+                    ;
+                    
             })
             ->when($package !== null, function($query) use ($request, $package){
                 $query->where('interested_package','=',$package->name);
             })
+            
             ->orderByDesc('id')
             ->paginate(10);
         $user = Auth::user()->id;
