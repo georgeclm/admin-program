@@ -6,6 +6,8 @@ use Illuminate\Database\Seeder;
 use App\Models\User;
 use App\Models\Reminder;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
+
 
 
 class DatabaseSeeder extends Seeder
@@ -17,6 +19,11 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
+        DB::table('users')->insert([
+            'name'=> 'Admin For test',
+            'email'=>'test@test.com',
+            'password'=> bcrypt('123456789'),
+        ]);
         // \App\Models\User::factory(10)->create();
         /*$this->call(UserTableSeeder::class);
         Reminder::create([
