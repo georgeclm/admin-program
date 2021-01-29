@@ -33,7 +33,7 @@ php artisan storage:link
 php artisan serve
 ```
 4. **Run the website**
-Visit 127.0.0.1
+### Visit 127.0.0.1
 
 ### Account that is inside the seed
 	
